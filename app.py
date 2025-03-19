@@ -4,11 +4,12 @@ from processing import Preprocessor
 preprocessor = Preprocessor(target_size=(128, 128))
 
 # Streamlit app
-st.title("Image Preprocessing")
-st.write("Upload an image to preprocess it.")
+st.title("MedAnalytix")
+st.write("A Medical Vision Language Model Platform for Image Analysis and Report Generation")
 
 # File uploader
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png", "bmp"])
+
 
 if uploaded_file is not None:
     # Preprocess the image
