@@ -2,11 +2,11 @@ import streamlit as st
 import os
 import PIL.Image as Image
 from io import BytesIO
+from dotenv import load_dotenv
 from processing import Preprocessor
 from models import GeminiImageAnalyzer
 
 
-# Initialize Preprocessor and Analyzer
 preprocessor = Preprocessor(target_size=(128, 128))
 API_KEY = os.getenv("GEMINI_API_KEY")
 analyzer = GeminiImageAnalyzer(API_KEY)
@@ -25,22 +25,20 @@ if st.button("🔄 New Chat"):
     st.rerun()   # Refresh
 
 # File Uploader
-uploaded_file = st.file_uploader("📤 Upload a medical image...", type=["jpg", "jpeg", "png", "bmp"])
+uploaded_file = st.file_uploader("📤 Upload a medical image...", type=["jpg", "jpeg", "png", "bmp", "dcm"])
 
 if uploaded_file is not None and "image_processed" not in st.session_state:
     try:
         with st.spinner("🔄 Analyzing image... Please wait."):
             # Load and preprocess the image
-            image = Image.open(uploaded_file)
             preprocessed_image = preprocessor.preprocess_file(uploaded_file)
 
-            # Convert image to bytes for storage in session
             img_byte_arr = BytesIO()
-            image.save(img_byte_arr, format="PNG")
-            img_byte_arr = img_byte_arr.getvalue() 
-
-            # Store image and response in session
+            preprocessed_image.save(img_byte_arr, format="PNG")
+            img_byte_arr = img_byte_arr.getvalue()
             st.session_state["image_bytes"] = img_byte_arr
+            
+            # Analyze the image
             preliminary_report = analyzer.analyze_image(preprocessed_image)[0]
 
             st.session_state.chat_history.append({"role": "user", "content": img_byte_arr})
