@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from processing import Preprocessor
 from models import GeminiImageAnalyzer
 
-
+load_dotenv()
 preprocessor = Preprocessor(target_size=(128, 128))
 API_KEY = os.getenv("GEMINI_API_KEY")
 analyzer = GeminiImageAnalyzer(API_KEY)
