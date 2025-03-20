@@ -21,10 +21,10 @@ class Preprocessor:
         # Normalizing image
         normalized_image = rescale_intensity(resized_image, out_range=(0, 1))
 
-        return normalized_image
+        return (normalized_image * 255).astype(np.uint8)
     
     # call this method to load and preprocess an image file
     def preprocess_file(self, file_path):
         image = self.load_image(file_path)
         preprocessed_image = self.preprocess_image(image)
-        return preprocessed_image
+        return Image.fromarray(preprocessed_image)
