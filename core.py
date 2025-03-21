@@ -12,25 +12,18 @@ class Patient:
         
     def patient_info_summary(self):
         return f"Patient: {self.name}\nPatient ID : {self.patient_ID}\nAge: {self.age}\nGender: {self.gender}\nMedical History : {self.medical_history}\nNumber of studies: {len(self.studies)} "
-    
-
 
 class Study:
     def __init__(self, study_id, modality,patient):
         self.study_id = study_id
-        self.patient = patient #link study to a particular patient
-        self.modality = modality #not settled yet
-        #images or the path to them
-
+        self.patient = patient 
+        self.modality = modality 
+        patient.add_study(self) 
         
-        patient.add_study(self) #add the study to the patient's record immediately it is created
-        
-        
-    def get_study_details(self):    #Returns a  summary of the study details.
+    def get_study_details(self):    
         return (f"Study ID: {self.study_id}\n"
                 f"Patient: {self.patient.name} (ID: {self.patient.patient_ID})\n"
                 f"Modality: {self.modality}")
-                #number of images in the study 
                 
 # # Unit test
 # patient_1 = Patient("BME221", "Gideon", 24, "Male", ["Brain Cancer", "Ischemic Stroke"])
@@ -41,12 +34,12 @@ class Study:
 # print(study_2.get_study_details())
         
 
-class Report: #generates reports for a specific study
+class Report: 
     def __init__(self, study, findings, diagnosis):
-        self.study = study #Link to a particular study
+        self.study = study 
         self.findings = findings
-        self.diagnosis = diagnosis #together with findings will be needed from the VLM
-        self.recommendations = "" # Added recommendations attribute
+        self.diagnosis = diagnosis 
+        self.recommendations = "" 
     
     def generate_report_summary(self):
         return (f"--- Report for Study {self.study.study_id} ---\n"
