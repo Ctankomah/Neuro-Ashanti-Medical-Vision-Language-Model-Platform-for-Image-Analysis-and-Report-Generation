@@ -42,18 +42,16 @@ class Study:
         
 
 class Report: #generates reports for a specific study
-    def __init__(self, study, findings , diagnosis):
+    def __init__(self, study, findings, diagnosis):
         self.study = study #Link to a particular study
         self.findings = findings
         self.diagnosis = diagnosis #together with findings will be needed from the VLM
-        
-
-        def generate_report_summary(self):
-            return (f"--- Report for Study {self.study.study_id} ---\n"
+        self.recommendations = "" # Added recommendations attribute
+    
+    def generate_report_summary(self):
+        return (f"--- Report for Study {self.study.study_id} ---\n"
                 f"Patient: {self.study.patient.name} (ID: {self.study.patient.patient_ID})\n"
                 f"Modality: {self.study.modality}\n"
                 f"Findings: {self.findings}\n"
                 f"Diagnosis: {self.diagnosis}\n"
                 f"Recommendations: {self.recommendations}\n")
-
-

@@ -8,13 +8,32 @@ class GeminiImageAnalyzer:
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel("gemini-1.5-flash")
 
-    def analyze_image(self, image):
+    def analyze_image(self, image, patient_info=None, study_info=None):
         report = []
 
+        # Include patient information in the prompt if available
+        patient_context = ""
+        if patient_info:
+            patient_context = f"""
+            Patient Information:
+            {patient_info}
+            """
+            
+        study_context = ""
+        if study_info:
+            study_context = f"""
+            Study Information:
+            {study_info}
+            """
+
         # Prompt to guide AI response
-        prompt = """
+        prompt = f"""
         You are an AI medical assistant analyzing medical images.
         Provide a structured preliminary report based on the image.
+        
+        {patient_context}
+        {study_context}
+        
         Format the report like this:
 
         - **Findings:** (Describe abnormalities or normal conditions)
@@ -74,5 +93,5 @@ if __name__ == "__main__":
     image_objects = [...]  # This should be the output from the preprocessing team
 
     analyzer = GeminiImageAnalyzer(API_KEY)
-    preliminary_report = analyzer.analyze_images(image_objects)
+    preliminary_report = analyzer.analyze_image(image_objects[0], patient_info="Patient Name: John Doe, Age: 30", study_info="Study Type: MRI")
     analyzer.print_formatted_report(preliminary_report)
