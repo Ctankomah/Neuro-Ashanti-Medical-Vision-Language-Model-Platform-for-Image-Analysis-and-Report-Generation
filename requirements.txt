@@ -1,0 +1,8 @@
+streamlit
+pillow
+numpy
+scikit-image
+pydicom
+google-generativeai
+pydicom
+python-dotenv
